@@ -1,11 +1,12 @@
 from fastapi import FastAPI, WebSocket, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 import matplotlib.pyplot as plt
 import aiofiles
 import os
 import asyncio
-from logger import Logger
+from logger.logger import Logger
 import numpy as np
 import json
 
@@ -13,6 +14,8 @@ app = FastAPI()
 
 logger = Logger(level=5).get_logger()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/images", StaticFiles(directory="images"), name="images")
+templates = Jinja2Templates(directory="templates")
 
 ThisHostIP = "172.17.2.110"
 ThisHostPort = 5000
