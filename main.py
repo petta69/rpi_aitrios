@@ -14,7 +14,6 @@ app = FastAPI()
 
 logger = Logger(level=5).get_logger()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount("/images", StaticFiles(directory="images"), name="images")
 templates = Jinja2Templates(directory="templates")
 
 ThisHostIP = "172.17.2.110"
@@ -54,15 +53,6 @@ def create_plot(xData1, yData1):
     plt.ylabel("Count")
     plt.xlabel("Type")
     plt.title("Count by Type")
-
-
-
-
-    # plt.figure()
-    # plt.plot(data)
-    # plt.xlabel('X-axis')
-    # plt.ylabel('Y-axis')
-    # plt.title('Peter Plot')
     plot_path = 'static/plot.png'
     plt.savefig(plot_path)
     plt.close()
@@ -91,26 +81,10 @@ async def startup_event():
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    html_content = """
-    <html>
-        <head>
-            <title>Dynamic Plot</title>
-            
-<script>
-                var ws = new WebSocket("ws://172.17.2.110:5000/ws");
-                ws.onmessage = function(event) {
-                    document.getElementById("plot").src = event.data + "?t=" + new Date().getTime();
-                };
-            </script>
+    return templates.TemplateResponse(
+        request=request, name="index.html"
+    )
 
-        </head>
-        <body>
-            <h1>Dynamic Plot</h1>
-            <img id="plot" src="static/plot.png" alt="Plot">
-        </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content)
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

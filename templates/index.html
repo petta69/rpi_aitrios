@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Dynamic Plot</title>
+        
+<script>
+    var ws = new WebSocket("ws://172.17.2.110:5000/ws");
+    ws.onmessage = function(event) {
+        document.getElementById("plot").src = event.data + "?t=" + new Date().getTime();
+    };
+</script>
+
+    </head>
+    <body>
+        <h1>Dynamic Plot</h1>
+        <img id="plot" src="static/plot.png" alt="Plot">
+    </body>
+</html>
