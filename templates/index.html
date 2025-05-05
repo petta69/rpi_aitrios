@@ -3,7 +3,8 @@
         <title>Dynamic Plot</title>
         
 <script>
-    var ws = new WebSocket("ws://172.17.2.110:5000/ws");
+    var WSAddress = {{ ws_string }}
+    var ws = new WebSocket(WSAddress);
     ws.onmessage = function(event) {
         document.getElementById("plot").src = event.data + "?t=" + new Date().getTime();
     };

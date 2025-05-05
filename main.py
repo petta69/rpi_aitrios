@@ -87,8 +87,11 @@ async def startup_event():
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
+    context = {}
+    context["HostIP"] = ThisHostIP
+    context["ws_string"] = f"ws://{ThisHostIP}:{ThisHostPort}/ws"
     return templates.TemplateResponse(
-        request=request, name="index.html"
+        request=request, name="index.html", context=context
     )
 
 
