@@ -1,10 +1,12 @@
-from fastapi import FastAPI, WebSocket, Request
+from fastapi import FastAPI, WebSocket, Request, status
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import matplotlib.pyplot as plt
 import aiofiles
 import os
+import os.path
+import traceback
 import asyncio
 from logger.logger import Logger
 import numpy as np
@@ -15,6 +17,10 @@ app = FastAPI()
 logger = Logger(level=5).get_logger()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+
+SAVE_PATH_IMG = './image'
+SAVE_PATH_META = './meta'
+
 
 ThisHostIP = "172.17.2.110"
 ThisHostPort = 5000
@@ -95,6 +101,41 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.receive_text()
     except:
         clients.remove(websocket)
+
+
+
+## Aitrios stuff:
+def save_file(file_type, content, filename):
+        file_path = os.path.join(file_type, filename)
+        with open(file_path, 'wb') as w_fp:
+                w_fp.write(content)
+
+
+@app.put("/meta/{filename}")
+async def update_items(filename, request: Request):
+        try:
+                content = await request.body()
+                os.makedirs(SAVE_PATH_META, exist_ok=True)
+                save_file(SAVE_PATH_META, content, filename)
+                logger.info("Meta File Saved: %s", filename)
+                return {"status":status.HTTP_200_OK}
+        except (Exception):
+                traceback.print_exc()
+
+
+@app.put("/image/{filename}")
+async def update_items(filename, request: Request):
+        try:
+                content = await request.body()
+                os.makedirs(SAVE_PATH_IMG, exist_ok=True)
+                save_file(SAVE_PATH_IMG, content, filename)
+                logger.info("Image File Saved: %s", filename)
+                return {"status":status.HTTP_200_OK}
+        except (Exception):
+                traceback.print_exc()
+
+
+
 
 if __name__ == "__main__":
     import uvicorn

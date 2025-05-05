@@ -1,0 +1,16 @@
+{
+    "commands": [
+        {
+            "command_name": "StartUploadInferenceData",
+            "parameters": {
+                "Mode": 1,
+                "UploadMethod": "HTTPStorage",
+                "StorageName": "http://192.168.111.10:5000",
+                "StorageSubDirectoryPath": "/image",
+                "UploadMethodIR": "HTTPStorage",
+                "StorageNameIR": "http://192.168.111.10:5000",
+                "StorageSubDirectoryPathIR": "/meta"
+            }
+        }
+    ]
+}
