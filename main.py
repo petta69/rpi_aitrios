@@ -22,7 +22,7 @@ SAVE_PATH_IMG = './image'
 SAVE_PATH_META = './meta'
 
 
-ThisHostIP = "172.17.2.110"
+ThisHostIP = "192.168.0.51v"
 ThisHostPort = 5000
 DATA_FILE = "data.json"
 clients = []
