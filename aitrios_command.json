@@ -5,10 +5,10 @@
             "parameters": {
                 "Mode": 1,
                 "UploadMethod": "HTTPStorage",
-                "StorageName": "http://192.168.111.10:5000",
+                "StorageName": "http://192.168.0.51:5000",
                 "StorageSubDirectoryPath": "/image",
                 "UploadMethodIR": "HTTPStorage",
-                "StorageNameIR": "http://192.168.111.10:5000",
+                "StorageNameIR": "http://192.168.0.51:5000",
                 "StorageSubDirectoryPathIR": "/meta"
             }
         }

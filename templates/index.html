@@ -2,13 +2,13 @@
     <head>
         <title>Dynamic Plot</title>
         
-<script>
-    var WSAddress = {{ ws_string }}
-    var ws = new WebSocket(WSAddress);
-    ws.onmessage = function(event) {
-        document.getElementById("plot").src = event.data + "?t=" + new Date().getTime();
-    };
-</script>
+        <script>
+            var WSAddress = {{ws_string|tojson}};
+            var ws = new WebSocket(WSAddress);
+            ws.onmessage = function(event) {
+                document.getElementById("plot").src = event.data + "?t=" + new Date().getTime();
+            };
+        </script>
 
     </head>
     <body>
